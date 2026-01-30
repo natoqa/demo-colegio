@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Users, Award, BookOpen, TrendingUp } from 'lucide-react';
 
 interface Stat {
@@ -43,15 +43,20 @@ const stats: Stat[] = [
   },
 ];
 
-function Counter({ value, suffix }: { value: number; suffix: string }) {
+function Counter({ value, suffix, hasStarted }: { value: number; suffix: string; hasStarted: boolean }) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest));
   const nodeRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    if (!hasStarted) {
+      count.set(0);
+      return;
+    }
+
     const controls = animate(count, value, { duration: 2.5, ease: 'easeOut' });
     return controls.stop;
-  }, [count, value]);
+  }, [count, value, hasStarted]);
 
   useEffect(() => {
     const unsubscribe = rounded.on('change', (latest) => {
@@ -71,8 +76,32 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export function StatsSection() {
+  const [hasStarted, setHasStarted] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [hasStarted]);
+
   return (
-    <section className="relative py-24 overflow-hidden bg-slate-900">
+    <section ref={sectionRef} className="relative py-24 overflow-hidden bg-slate-900">
       {/* Subtle Pattern Overlay */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -129,7 +158,7 @@ export function StatsSection() {
 
                   {/* Number */}
                   <div className="text-4xl md:text-5xl font-black text-white mb-2">
-                    <Counter value={stat.value} suffix={stat.suffix} />
+                    <Counter value={stat.value} suffix={stat.suffix} hasStarted={hasStarted} />
                   </div>
 
                   {/* Label */}
