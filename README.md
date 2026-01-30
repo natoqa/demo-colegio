@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏫 Colegio - Sitio Web Institucional
 
-## Getting Started
+Sitio web institucional desarrollado con Next.js 16, TypeScript y Tailwind CSS, siguiendo arquitectura Feature-First y principios de Clean Architecture.
 
-First, run the development server:
+## 🚀 Inicio Rápido
 
 ```bash
+# Instalar dependencias
+npm install
+
+# Iniciar servidor de desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Abrir http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📁 Estructura del Proyecto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/              # App Router (routing)
+├── features/         # Lógica de negocio por feature
+├── shared/           # Componentes y servicios compartidos
+└── types/            # Tipos globales
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ver [ARQUITECTURA.md](./ARQUITECTURA.md) para documentación completa.
 
-## Learn More
+## 🌐 Rutas Disponibles
 
-To learn more about Next.js, take a look at the following resources:
+- **`/`** - Página de inicio
+- **`/nosotros`** - Información institucional
+- **`/admision`** - Proceso de admisión
+- **`/niveles/inicial`** - Nivel inicial
+- **`/niveles/primaria`** - Nivel primaria
+- **`/niveles/secundaria`** - Nivel secundaria
+- **`/contacto`** - Formulario de contacto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Stack Tecnológico
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Framework**: Next.js 16 (App Router)
+- **Lenguaje**: TypeScript
+- **Estilos**: Tailwind CSS
+- **Arquitectura**: Feature-First + Clean Architecture
 
-## Deploy on Vercel
+## 📦 Comandos Disponibles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev          # Desarrollo
+npm run build        # Build de producción
+npm start            # Servidor de producción
+npm run lint         # Linting
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🏗️ Arquitectura
+
+### Feature-First
+Cada feature contiene toda su lógica relacionada:
+- Componentes específicos
+- Hooks personalizados
+- Servicios de negocio
+- Tipos TypeScript
+
+### Clean Architecture
+Separación clara de responsabilidades:
+- `app/` - Solo routing y composición
+- `features/` - Lógica de dominio
+- `shared/` - Código reutilizable
+
+### Alias de Importación
+```typescript
+import { Header } from '@/shared/components/layout/Header';
+import { ContactService } from '@/features/contact/services/contact.service';
+```
+
+## 📝 Convenciones
+
+- **Nombres de archivos**: kebab-case para carpetas, PascalCase para componentes
+- **Componentes**: Un componente por archivo
+- **Exportaciones**: Usar barrel exports (index.ts)
+- **Tipos**: Co-ubicar con el código que los usa
+
+## 📚 Documentación
+
+- [ARQUITECTURA.md](./ARQUITECTURA.md) - Documentación completa de la arquitectura
+- [setup-estructura.ps1](./setup-estructura.ps1) - Script para recrear la estructura
+
+## 🤝 Desarrollo
+
+Este proyecto está configurado para ser escalable y mantenible:
+- ✅ Arquitectura modular por features
+- ✅ Separación clara de responsabilidades
+- ✅ TypeScript para type-safety
+- ✅ Convenciones de código consistentes
+- ✅ Estructura preparada para crecimiento
+
+## 📄 Licencia
+
+Proyecto privado - Colegio Institucional
+
+---
+
+**Desarrollado con** ❤️ **usando Next.js 16**
