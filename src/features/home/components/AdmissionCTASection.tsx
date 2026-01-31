@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { CheckCircle2, Users, Zap, Award, BookOpen, Heart } from 'lucide-react';
 import Link from 'next/link';
 
@@ -51,11 +51,12 @@ const processSteps = [
 ];
 
 export function AdmissionCTASection() {
+  const shouldAnimate = !useReducedMotion();
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-30 translate-y-1/2 -translate-x-1/4" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/4 hidden md:block" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-50 rounded-full blur-3xl opacity-30 translate-y-1/2 -translate-x-1/4 hidden md:block" />
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
@@ -130,7 +131,7 @@ export function AdmissionCTASection() {
                   className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 rounded-full shadow-xl shadow-fuchsia-500/50"
                   initial={{ width: '0%' }}
                   animate={{ width: '100%' }}
-                  transition={{ duration: 5, ease: 'easeInOut', repeat: Infinity }}
+                  transition={{ duration: 5, ease: 'easeInOut', repeat: shouldAnimate ? Infinity : 0 }}
                 />
               </motion.div>
 
@@ -154,14 +155,15 @@ export function AdmissionCTASection() {
                         {/* Outer animated ring */}
                         <motion.div
                           className="absolute inset-0 w-24 h-24 rounded-full"
-                          animate={{
-                            scale: [1, 1.4, 1],
-                            opacity: [0.5, 0, 0.5]
-                          }}
+                          animate={
+                            shouldAnimate
+                              ? { scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }
+                              : { scale: 1, opacity: 0.2 }
+                          }
                           transition={{
                             duration: 2.5,
                             delay: stepStart,
-                            repeat: Infinity,
+                            repeat: shouldAnimate ? Infinity : 0,
                             repeatDelay: stepDuration - 2.5
                           }}
                           style={{
@@ -171,31 +173,33 @@ export function AdmissionCTASection() {
 
                         {/* Main circle with dual-tone gradient */}
                         <motion.div
-                          className="w-24 h-24 rounded-full text-white flex items-center justify-center font-bold text-2xl shadow-2xl relative z-10 border-4 border-white overflow-hidden"
-                          animate={{
-                            background: [
-                              'linear-gradient(135deg, #6366f1, #3b82f6)',
-                              'linear-gradient(135deg, #a855f7, #6366f1)',
-                              'linear-gradient(135deg, #ec4899, #a855f7)',
-                              'linear-gradient(135deg, #6366f1, #3b82f6)'
-                            ]
-                          }}
+                          className="w-24 h-24 rounded-full text-white flex items-center justify-center font-bold text-2xl shadow-2xl relative z-10 border-4 border-white overflow-hidden bg-gradient-to-br from-indigo-500 to-blue-500"
+                          animate={
+                            shouldAnimate
+                              ? {
+                                  background: [
+                                    'linear-gradient(135deg, #6366f1, #3b82f6)',
+                                    'linear-gradient(135deg, #a855f7, #6366f1)',
+                                    'linear-gradient(135deg, #ec4899, #a855f7)',
+                                    'linear-gradient(135deg, #6366f1, #3b82f6)'
+                                  ]
+                                }
+                              : undefined
+                          }
                           transition={{
                             duration: stepDuration,
-                            repeat: Infinity,
+                            repeat: shouldAnimate ? Infinity : 0,
                             ease: 'linear'
                           }}
                         >
                           {/* Shine effect */}
                           <motion.div
                             className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-full"
-                            animate={{
-                              opacity: [0, 0.5, 0]
-                            }}
+                            animate={shouldAnimate ? { opacity: [0, 0.5, 0] } : { opacity: 0 }}
                             transition={{
                               duration: 0.8,
                               delay: stepStart,
-                              repeat: Infinity,
+                              repeat: shouldAnimate ? Infinity : 0,
                               repeatDelay: stepDuration - 0.8
                             }}
                           />
@@ -211,7 +215,7 @@ export function AdmissionCTASection() {
                           transition={{
                             duration: 0.5,
                             delay: stepStart + 0.4,
-                            repeat: Infinity,
+                            repeat: shouldAnimate ? Infinity : 0,
                             repeatDelay: stepDuration - 0.5
                           }}
                         >
@@ -229,10 +233,10 @@ export function AdmissionCTASection() {
                             strokeWidth="3"
                             strokeLinecap="round"
                             initial={{ strokeDashoffset: 283 }}
-                            animate={{ strokeDashoffset: 283 }}
+                            animate={shouldAnimate ? { strokeDashoffset: 283 } : { strokeDashoffset: 0 }}
                             transition={{
                               duration: stepDuration,
-                              repeat: Infinity,
+                              repeat: shouldAnimate ? Infinity : 0,
                               ease: 'easeInOut'
                             }}
                             style={{

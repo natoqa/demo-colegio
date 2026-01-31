@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { 
   Palette, 
@@ -74,11 +74,12 @@ const activities: Activity[] = [
 ];
 
 export function ActivitiesSection() {
+  const shouldAnimate = !useReducedMotion();
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       {/* Decorative background elements */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-100 rounded-full blur-3xl opacity-20 translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl opacity-20 -translate-x-1/2 -translate-y-1/2 hidden md:block" />
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-100 rounded-full blur-3xl opacity-20 translate-x-1/2 translate-y-1/2 hidden md:block" />
       
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
@@ -154,8 +155,8 @@ export function ActivitiesSection() {
                     <div className="flex items-center gap-2 text-white font-semibold group-hover:gap-3 transition-all">
                       <span className="text-sm">Descubre más</span>
                       <motion.div
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                        animate={shouldAnimate ? { x: [0, 4, 0] } : { x: 0 }}
+                        transition={{ duration: 1.5, repeat: shouldAnimate ? Infinity : 0 }}
                       >
                         <ChevronRight className="w-5 h-5" />
                       </motion.div>
@@ -186,8 +187,8 @@ export function ActivitiesSection() {
             >
               <span>Descubre más sobre nuestros programas</span>
               <motion.span
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                animate={shouldAnimate ? { x: [0, 4, 0] } : { x: 0 }}
+                transition={{ duration: 1.5, repeat: shouldAnimate ? Infinity : 0 }}
               >
                 <ChevronRight className="w-5 h-5" />
               </motion.span>

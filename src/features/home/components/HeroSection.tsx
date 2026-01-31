@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -24,14 +25,17 @@ const useTypingEffect = (text: string, speed: number = 80) => {
 
 export function HeroSection() {
   const typedTitle = useTypingEffect('Formando el Futuro de Nuestros Hijos', 80);
+  const shouldAnimate = !useReducedMotion();
   return (
     <section className="relative w-full h-screen overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("/images/hero.webp")',
-        }}
+      <Image
+        src="/images/hero.webp"
+        alt="Estudiantes en el colegio"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
 
       {/* Dark Overlay */}
@@ -60,7 +64,7 @@ export function HeroSection() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="mb-8 inline-block"
           >
-            <div className="px-4 py-2 rounded-full bg-blue-500/30 border border-blue-400/60 backdrop-blur-sm">
+            <div className="px-4 py-2 rounded-full bg-blue-500/30 border border-blue-400/60 md:backdrop-blur-sm">
               <span className="text-blue-100 text-sm font-medium">🎓 Educación de Excelencia</span>
             </div>
           </motion.div>
@@ -76,8 +80,8 @@ export function HeroSection() {
               {typedTitle}
             </span>
             <motion.span
-              animate={{ opacity: [1, 0] }}
-              transition={{ duration: 0.8, repeat: Infinity }}
+              animate={shouldAnimate ? { opacity: [1, 0] } : { opacity: 1 }}
+              transition={{ duration: 0.8, repeat: shouldAnimate ? Infinity : 0 }}
               className="text-blue-300"
             >
               |
@@ -111,8 +115,8 @@ export function HeroSection() {
               >
                 Solicita tu Admisión
                 <motion.span
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
+                  animate={shouldAnimate ? { x: [0, 4, 0] } : { x: 0 }}
+                  transition={{ duration: 1.5, repeat: shouldAnimate ? Infinity : 0 }}
                 >
                   <ArrowRight className="w-5 h-5" />
                 </motion.span>
@@ -123,9 +127,9 @@ export function HeroSection() {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block"
+          animate={shouldAnimate ? { y: [0, 12, 0] } : { y: 0 }}
+          transition={{ duration: 1.5, repeat: shouldAnimate ? Infinity : 0 }}
         >
           <div className="text-center">
             <p className="text-white/70 text-sm mb-3 font-medium">Desliza para conocer más</p>
@@ -137,8 +141,8 @@ export function HeroSection() {
               strokeWidth="2"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              animate={shouldAnimate ? { y: [0, 8, 0] } : { y: 0 }}
+              transition={{ duration: 1.5, repeat: shouldAnimate ? Infinity : 0 }}
             >
               <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </motion.svg>
@@ -148,14 +152,14 @@ export function HeroSection() {
 
       {/* Floating Elements */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"
-        animate={{ scale: [1, 1.2, 1], x: [0, 30, 0] }}
-        transition={{ duration: 8, repeat: Infinity }}
+        className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none hidden md:block"
+        animate={shouldAnimate ? { scale: [1, 1.2, 1], x: [0, 30, 0] } : { scale: 1, x: 0 }}
+        transition={{ duration: 8, repeat: shouldAnimate ? Infinity : 0 }}
       />
       <motion.div
-        className="absolute bottom-0 right-10 w-72 h-72 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none"
-        animate={{ scale: [1, 1.3, 1], x: [0, -30, 0] }}
-        transition={{ duration: 8, repeat: Infinity, delay: 2 }}
+        className="absolute bottom-0 right-10 w-72 h-72 bg-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none hidden md:block"
+        animate={shouldAnimate ? { scale: [1, 1.3, 1], x: [0, -30, 0] } : { scale: 1, x: 0 }}
+        transition={{ duration: 8, repeat: shouldAnimate ? Infinity : 0, delay: 2 }}
       />
     </section>
   );

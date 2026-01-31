@@ -1,6 +1,3 @@
-'use client';
-
-import { motion } from 'framer-motion';
 import { HeroSection, LevelsSection, InfrastructureSection, StatsSection, ActivitiesSection, AdmissionCTASection } from '@/features/home/components';
 
 export default function HomePage() {
